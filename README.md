@@ -1,4 +1,4 @@
-# FrenchFusion
+# French Fusion
 
 ## Description
 
