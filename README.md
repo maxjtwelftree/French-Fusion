@@ -23,3 +23,8 @@ The project provides MATLAB scripts that allow you to run the program and utilis
 - Experiment with different language models and settings
 - Visualize the translation process and save the results
 
+## Installation
+
+To install and utilise the application, click myApp.m and download. Additionally download every file located within the assets folder and save them to the same directory as the myApp.m file. 
+
+Now in MATLAB, type, 'myApp' within the command window and the application will be run and later show.
