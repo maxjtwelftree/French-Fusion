@@ -24,7 +24,6 @@ See how the program is run [here](youtube.com).
 
 ## Features
 
-- Apply linguistic algorithms to text
 - Integrate contextual knowledge to enhance understanding
 - Generate language usage insights for unique patterns
 - Easy-to-use MATLAB scripts for text translation and analysis
