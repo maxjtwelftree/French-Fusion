@@ -35,4 +35,4 @@ See how the program is run [here](youtube.com).
 
 To install and utilise the application, click myApp.m and download. Additionally download every file located within the assets folder and save them to the same directory as the myApp.m file. 
 
-Now in MATLAB, type, 'myApp' within the command window and the application will be run and later show.
+Once the necessary files are downloaded in MATLAB, type, 'myApp' within the command window and the application will be run and later show.
