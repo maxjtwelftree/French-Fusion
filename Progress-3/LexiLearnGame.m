@@ -58,24 +58,3 @@ fprintf("Program finished. Thank you for using!\n");
 
 
 
-
-%% Showcase the Rules
-
-fprintf('Rules of the Game:\n');
-fprintf('------------------\n');
-fprintf('1. Two players compete in a 2-player game (not against the computer)\n');
-fprintf('2. Choose the number of rounds to play (0 to 9)\n');
-fprintf('3. Enter two usernames, each with 8 characters\n');
-fprintf('4. Engage in the Fight Arena during rounds\n');
-fprintf('5. The goal: Reduce your opponent''s health to 0 to win the round\n');
-fprintf('6. You have three bars: Health, Armour, and XP\n');
-fprintf('7. Gain 30 XP for shooting a gunshot\n');
-fprintf('8. Spend 20 XP to pierce with a sword\n');
-fprintf('9. Use 100 XP to fire a cannon\n');
-fprintf('10. Medic can be used when your health is <= 20\n');
-fprintf('11. Skipping a move earns you 40 XP\n');
-fprintf('12. Press "d" during "Enter Your Attack" to view damage details\n\n');
-
-fprintf('For a better view, undock the command window and position the displayed image below.\n\n');
-fprintf('Enjoy playing the game!\n');
-enter = input('Press Enter to start: ');
