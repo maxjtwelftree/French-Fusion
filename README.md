@@ -2,7 +2,7 @@
 
 <div align="center">
   <img src="https://github.com/maxjtwelftree/French-Fusion/blob/5ac47af52c0a9464fd5b21e8903487b7abba00d0/Assets/Home.png" width="45%">
-  <img src="https://github.com/maxjtwelftree/French-Fusion/blob/3ab9f7d8d37c563358a5962776c2af2acfd6b05a/Assets/Translation.png" width="45%">
+  <img src="https://github.com/maxjtwelftree/French-Fusion/blob/cd11a1d2463ecf48fbd9a34568c342a989cd3fc9/Assets/Translator.png" width="45%">
 </div>
 
 
