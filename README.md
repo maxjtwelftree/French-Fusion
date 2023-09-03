@@ -8,9 +8,11 @@
 
 ## Description
 
-This MATLAB project allows French learners to use a language learning application. The goal of this project is to explore and demonstrate language learning can be applied to appdesigner and development within Matlab.
+This MATLAB project enables those learning French to engage with a language learning tool. It aims to showcase how language learning can be integrated into app designer and progression in Matlab.
 
-The project provides MATLAB scripts that allow you to run the program and utilise the applications different features. You can easily experiment with different parameters and settings to see how they affect the final output. See how the program is run [here](youtube.com).
+The project provides MATLAB scripts that allow you to run the program and utilise the applications different features. You can easily experiment with different parameters and settings to see how they affect the final output.
+
+See how the program is run [here](youtube.com).
 
 ## Concepts Implemented
 
