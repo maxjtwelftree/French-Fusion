@@ -51,6 +51,7 @@ classdef myApp < matlab.apps.AppBase
         MusicPanel                  % UI panel or component related to music or audio settings
         ChallengeLevel = 1;         % Current challenge level or difficulty setting
         streak = 0;                 % Counter for consecutive successful actions of correct answers in a row within the challenge function
+        correctTranslation          % Checks the correct translation
         CurrentLevel = 1;           % Current level or stage in the application or game, to allow users to increase levels as used within the challenges
         storyIndex                  % Index or identifier for the currently selected or active story
     end
@@ -752,11 +753,11 @@ classdef myApp < matlab.apps.AppBase
             % Choose a random word from the challenge content
             randomIndex = randi(length(frenchWords));
             frenchWord = frenchWords{randomIndex};
-            correctTranslation = englishTranslations{randomIndex};
+            app.correctTranslation = englishTranslations{randomIndex};
 
             % Cereate a label to display instructions for the challenge
             translateLabel = uilabel(app.ChallengeUI);
-            translateLabel.Text = 'Translate the French word to English. 5 in a row allows you to level up!';
+            translateLabel.Text = 'Translate the French word to English. 5 in a row allows you to level up!'; % Does not show but helps contexually within the code
             translateLabel.HorizontalAlignment = 'center'; % Center the text within the label
             translateLabel.FontSize = 16;
             translateLabel.FontWeight = 'bold';
@@ -782,11 +783,11 @@ classdef myApp < matlab.apps.AppBase
             submitButton.FontSize = 14;
             submitButton.BackgroundColor = [0.3, 0.6, 1];
             submitButton.FontColor = [1, 1, 1];
-            submitButton.ButtonPushedFcn = @(~,~) checkGuess(app, guessEditField.Value, correctTranslation); % Setr the callback function to check the guess when the button is pressed
+            submitButton.ButtonPushedFcn = @(~,~) checkGuess(app, guessEditField.Value, app.correctTranslation); % Setr the callback function to check the guess when the button is pressed
               
             % CHECKGUESS: Compare the guess to the correct translation
-            function checkGuess(app, guess, correctTranslation, frenchWords, englishTranslations, frenchWordLabel, guessEditField, submitButton)
-                if strcmp(guess, correctTranslation)
+            function checkGuess(app, guess, frenchWords, englishTranslations, frenchWordLabel, guessEditField, submitButton)
+                if strcmpi(strtrim(guess), strtrim(app.correctTranslation))
                     % Increment the streak by one
                     app.streak = app.streak + 1;
                 
@@ -821,8 +822,8 @@ classdef myApp < matlab.apps.AppBase
                     % Chooese another new random word from the same level
                     randomIndex = randi(length(frenchWords));
                     frenchWord = frenchWords{randomIndex};
-                    correctTranslation = englishTranslations{randomIndex};
-                    
+                    app.correctTranslation = englishTranslations{randomIndex}; 
+                                        
                     % Update UI components with the new word
                     frenchWordLabel.Text = frenchWord;
                     guessEditField.Value = '';
@@ -845,7 +846,7 @@ classdef myApp < matlab.apps.AppBase
                 end
             end
             % Adjust the submit button's callback function to check the user's translation guess
-            submitButton.ButtonPushedFcn = @(~,~) checkGuess(app, guessEditField.Value, correctTranslation, frenchWords, englishTranslations, frenchWordLabel, guessEditField, submitButton);
+            submitButton.ButtonPushedFcn = @(~,~) checkGuess(app, guessEditField.Value, frenchWords, englishTranslations, frenchWordLabel, guessEditField, submitButton);
         end
 
         % STORYBUTTONPUSHED: executed when the story button is pushed
