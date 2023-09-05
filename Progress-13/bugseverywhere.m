@@ -173,7 +173,7 @@ classdef bugseverywhere < matlab.apps.AppBase
             welcomeLabel.FontSize = 32;
             welcomeLabel.FontWeight = 'bold';
             welcomeLabel.FontColor = [239, 65, 53] / 255; % French red font color
-            welcomeLabel.Position = [150, 280, 300, 40]; % Adjusted position
+            welcomeLabel.Position = [150, 280, 300, 40];
             welcomeLabel.HorizontalAlignment = 'center';
         
             % Buttons
@@ -182,7 +182,7 @@ classdef bugseverywhere < matlab.apps.AppBase
             buttonSpacing = 20;
             
             startX = (app.HomeUI.Position(3) - (3 * buttonWidth + 2 * buttonSpacing)) / 2;
-            buttonY = (app.HomeUI.Position(4) - buttonHeight) / 2; % Adjusted position
+            buttonY = (app.HomeUI.Position(4) - buttonHeight) / 2; 
             
             exitButton = uibutton(app.HomeUI, 'push');
             exitButton.ButtonPushedFcn = createCallbackFcn(app, @exitButtonPushed, true);
@@ -216,7 +216,7 @@ classdef bugseverywhere < matlab.apps.AppBase
             musicPanel = uipanel(app.HomeUI);
             musicPanel.Position = [200, 20, 200, 100];
             musicPanel.BorderType = 'none';
-            musicPanel.BackgroundColor = [1 1 1];  % Set the background color to match the UIFigure
+            musicPanel.BackgroundColor = [1 1 1];  
             
             musicLabel = uilabel(musicPanel);
             musicLabel.Text = 'Study Music 🎵';
@@ -272,9 +272,9 @@ classdef bugseverywhere < matlab.apps.AppBase
         end
 
         function createRandomChallenge(app)
-            englishWords = keys(app.Data.dictionary); % Get all English words from the dictionary
-            randomIndex = randi(length(englishWords)); % Generate a random index
-            randomEnglishWord = englishWords{randomIndex}; % Get the random English word
+            englishWords = keys(app.Data.dictionary); %
+            randomIndex = randi(length(englishWords)); 
+            randomEnglishWord = englishWords{randomIndex}; 
             
             app.UIFigure = uifigure('Visible', 'on');
             app.UIFigure.Position = [100, 100, 600, 400];
