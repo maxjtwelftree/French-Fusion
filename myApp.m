@@ -111,7 +111,6 @@ classdef myApp < matlab.apps.AppBase
         end
         
         % TOGGLEDOTS: Function to toggle the display of dots on the loading label
-        % animating the loading screen
         function toggleDots(app)
             % Define an array of dots to cycle through
             dots = {'.', '..', '...'};
@@ -304,7 +303,7 @@ classdef myApp < matlab.apps.AppBase
 
             % SUBMITBUTTION: Represents the button users press to trigger the translation
             app.SubmitButton = uibutton(app.TranslatorUI, 'push'); 
-            app.SubmitButton.ButtonPushedFcn = @app.submitTranslation; % Callback so once the submit button is pressed a message displaying the text's translations from the dictionary text file are processed 
+            app.SubmitButton.ButtonPushedFcn = @(src,event)app.submitTranslation(); % Callback so once the submit button is pressed a message displaying the text's translations from the dictionary text file are processed 
             app.SubmitButton.Position = [250, 10, 100, 30]; % position and size
             app.SubmitButton.Text = 'Translate'; % Provides a title for the button
             app.SubmitButton.FontSize = 14; % font size used for the button 
@@ -493,7 +492,7 @@ classdef myApp < matlab.apps.AppBase
         
         %% Translation label
         % UPDATETRANSLATIONLABEL: Updates the translation label based on the user's input in the edittext field
-        function updateTranslationLabel(app)
+        function submitTranslation(app)
             dictionary = app.Data.dictionary;
             % Get the user's guess/input from the EditText field
             userGuess = app.EditText.Value;
@@ -519,7 +518,7 @@ classdef myApp < matlab.apps.AppBase
     
         % EDITTEXTVALUECHANGED: Callback for when the value of the EditText field changes
         function EditTextValueChanged(app, ~)
-            updateTranslationLabel(app); % updates the translationlabel page
+            submitTranslation(app); % updates the translationlabel page
         end
 
         %% Volume Slider
@@ -901,7 +900,7 @@ classdef myApp < matlab.apps.AppBase
         
         % Method to refresh the app's display
         function refresh(app)
-            updateTranslationLabel(app); % Update the translation label to reflect the current state
+            submitTranslation(app); % Update the translation label to reflect the current state
         end
     end
 end
