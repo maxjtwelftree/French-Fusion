@@ -18,7 +18,7 @@ classdef myApp < matlab.apps.AppBase
         UIFigure           matlab.ui.Figure % Main user interface window for the loading and translator pages
         HomeUI             matlab.ui.Figure % User interface utilised for the home screen
         LoadingLabel       matlab.ui.control.Label % Label displaying loading status or messages
-        StartButton        matlab.ui.control.Button % vuttton to initiate the application
+        StartButton        matlab.ui.control.Button % Button to initiate the application
         SubmitButton       matlab.ui.control.Button % Burtton to submit user responses 
         sumbitTranslation  matlab.ui.control.Button % Button to submit translated wird via user input 
         EditText           matlab.ui.control.EditField % Text field for user to input and edit 
@@ -26,7 +26,9 @@ classdef myApp < matlab.apps.AppBase
         Data               struct % Data structure to store various relevant data  
         audioPlayer        audioplayer % Compornent to play audio content 
         StoryUI            matlab.ui.Figure % Usser interface to manage stories
-        ChallengeUI        matlab.ui.Figure % User interface for challenges 
+        ChallengeUI        matlab.ui.Figure % User interface for challenge select
+        ChallengeSelectUI  matlab.ui.Figure % User interface for challenge games
+        TranslatorUI       matlab.ui.Figure % User interface for the translator
         Story1UI           matlab.ui.Figure % User interface specifically for Story 1 content
         Story2UI           matlab.ui.Figure % User interface specifically for Story 2 content
         Story3UI           matlab.ui.Figure % User interface specifically for Story 3 content
@@ -143,6 +145,8 @@ classdef myApp < matlab.apps.AppBase
                 app.HomeUI.Color = [1 1 1]; % Set the background color to white
                 app.HomeUIBackgroundColor = app.HomeUI.Color; % Store the background color for future reference or use
             end
+
+            app.UIFigure.Visible = 'off';
             
             % TITLELABEL: Title on the HomeUI for displaying the title, hence
             % the HomeScreen is not empty 
@@ -166,7 +170,7 @@ classdef myApp < matlab.apps.AppBase
 
             % EXITBUTTON: Takes the users out of the application entirely
             exitButton = uibutton(app.HomeUI, 'push'); % Push button for exiting the app
-            exitButton.ButtonPushedFcn = @(~,~) app.exitButtonPushed(); % Executing and responding the the function supplied for the exit button (ie: leaving the application)
+            exitButton.ButtonPushedFcn = @(~,~) app.exitButtonPushedHome(); % Executing and responding the the function supplied for the exit button (ie: leaving the application)
             exitButton.Position = [10, app.HomeUI.Position(4) - 40, 70, 30]; % Positioning in the top corner to allow less overflow of UI and design
             exitButton.FontColor = [1, 1, 1]; % White colour given and used with all buttons to correspond to the colours utilised throughout the applications entirety 
             exitButton.BackgroundColor = [0.3, 0.6, 1]; % home page exit buttons background colour as followed by all other buttons
@@ -291,13 +295,15 @@ classdef myApp < matlab.apps.AppBase
         % home page and later access other modes
         function createTranslator(app)
             % UIFIGURE: Used for the UI of the translator (note: wasn't changed due to errors that came with a new UI 
-            app.UIFigure = uifigure('Visible', 'on'); % Represents the main window for the translator
-            app.UIFigure.Position = [100, 100, 600, 400]; % position and size
-            app.UIFigure.Name = 'Translator'; % Provides a title 
-            app.UIFigure.Color = [1 1 1]; %  the background color of the main window
-    
+            app.TranslatorUI = uifigure('Visible', 'on'); % Represents the main window for the translator
+            app.TranslatorUI.Position = [100, 100, 600, 400]; % position and size
+            app.TranslatorUI.Name = 'Translator'; % Provides a title 
+            app.TranslatorUI.Color = [1 1 1]; %  the background color of the main window
+
+            app.UIFigure.Visible = 'off';
+
             % SUBMITBUTTION: Represents the button users press to trigger the translation
-            app.SubmitButton = uibutton(app.UIFigure, 'push'); 
+            app.SubmitButton = uibutton(app.TranslatorUI, 'push'); 
             app.SubmitButton.ButtonPushedFcn = @app.submitTranslation; % Callback so once the submit button is pressed a message displaying the text's translations from the dictionary text file are processed 
             app.SubmitButton.Position = [250, 10, 100, 30]; % position and size
             app.SubmitButton.Text = 'Translate'; % Provides a title for the button
@@ -306,14 +312,14 @@ classdef myApp < matlab.apps.AppBase
             app.SubmitButton.FontColor = [1, 1, 1]; % font colour as maintained by other buttons 
     
             % EDITTEXT: Allows users to type in the text they want translated.
-            app.EditText = uieditfield(app.UIFigure, 'text');
+            app.EditText = uieditfield(app.TranslatorUI, 'text');
             app.EditText.ValueChangedFcn = createCallbackFcn(app, @EditTextValueChanged, true); % Callback used for the buttons functionality 
             app.EditText.Position = [150, 60, 300, 30]; % Sets the position and size of the input field
             app.EditText.FontSize = 14; % font size used 
             app.EditText.BackgroundColor = [1, 1, 1]; 
     
             % TRANSLATIONLABEL: Displays the resulting translation
-            app.TranslationLabel = uilabel(app.UIFigure);
+            app.TranslationLabel = uilabel(app.TranslatorUI);
             app.TranslationLabel.Position = [150, 150, 300, 200]; % Sets where the label appears and its dimensions
             app.TranslationLabel.FontSize = 14;
             app.TranslationLabel.FontWeight = 'bold';
@@ -324,21 +330,21 @@ classdef myApp < matlab.apps.AppBase
             app.TranslationLabel.Text = '';
     
             % EXITBUTTON: Lets users close the translation window and return to the home screen
-            exitButton = uibutton(app.UIFigure, 'push');
+            exitButton = uibutton(app.TranslatorUI, 'push');
             exitButton.ButtonPushedFcn = createCallbackFcn(app, @exitButtonPushed, true);
-            exitButton.Position = [app.UIFigure.Position(3) - 100, app.UIFigure.Position(4) - 40, 70, 30];  
+            exitButton.Position = [app.TranslatorUI.Position(3) - 100, app.TranslatorUI.Position(4) - 40, 70, 30];  
             exitButton.FontColor = [1, 1, 1];
             exitButton.BackgroundColor = [0.3, 0.6, 1];
             exitButton.Text = 'Exit';
-    
-            % HANDLING EXIT BUTTON ACTION
-            % Closes the translator window and brings the user back to the home screen
-            function exitButtonPushed(app, ~)
-                delete(app.UIFigure);  
-                createHomeScreen(app); 
-            end
         end
 
+        % HANDLING EXIT BUTTON ACTION
+        % Closes the translator window and brings the user back to the home screen
+        function exitButtonPushed(app, ~)
+            delete(app.TranslatorUI);  
+            createHomeScreen(app); 
+        end
+        
         % HANDLING THE STORYBUTTON ACTION
         function storyButtonPressed(app, ~)
             delete(app.HomeUI); % Deletes the home page and opens the story select page
@@ -607,13 +613,13 @@ classdef myApp < matlab.apps.AppBase
         end
     
         % EXITBUTTONPUSHED: Exits the home interface
-        function exitButtonPushed(app, ~)
+        function exitButtonPushedHome(app, ~)
             close(app.HomeUI);
         end
         
         % EXITBUTTONPUSHEDSTORY: exits the story interface and returns to the home screen.
         function exitButtonPushedStory(app, ~)
-            delete(app.StoryUI);  % Hide the StoryUI
+            app.StoryUI.Visible = 'off';
             createHomeScreen(app); % create the home screen UI
         end
     
@@ -644,9 +650,6 @@ classdef myApp < matlab.apps.AppBase
             app.ChallengeUI.Name = 'Challenge';
             app.ChallengeUI.Color = [1 1 1];
         
-            % Hide the main application's figure
-            app.UIFigure.Visible = 'off';
-        
             % Create a label prompting the user to select a challenge level
             selectLabel = uilabel(app.ChallengeUI);
             selectLabel.Text = 'Select a level ⚡';
@@ -655,6 +658,9 @@ classdef myApp < matlab.apps.AppBase
             selectLabel.Position = [150, 350, 300, 30];
             selectLabel.HorizontalAlignment = 'center';
             selectLabel.FontColor = [0 85/255 164/255];
+
+            % Hide the main application's figure
+            app.UIFigure.Visible = 'off';
             
             % Exit button to allow users to go back to the main page 
             exitButtonChallenge = uibutton(app.ChallengeUI, 'push');
@@ -694,20 +700,20 @@ classdef myApp < matlab.apps.AppBase
         % functionality allowing for user's to gain streaks and increase
         % levels
         function startChallenge(app, selectedLevel)        
-            app.ChallengeUI = uifigure('Visible', 'on');
-            app.ChallengeUI.Position = [100, 100, 600, 400];
-            app.ChallengeUI.Name = 'Challenge';
-            app.ChallengeUI.Color = [1 1 1];
+            app.ChallengeSelectUI = uifigure('Visible', 'on');
+            app.ChallengeSelectUI.Position = [100, 100, 600, 400];
+            app.ChallengeSelectUI.Name = 'Challenge';
+            app.ChallengeSelectUI.Color = [1 1 1];
+
+            app.ChallengeUI.Visible = 'off';
 
             % Exit button to allow users to go back to the main page 
-            exitButtonLevel = uibutton(app.ChallengeUI, 'push');
-            exitButtonLevel.ButtonPushedFcn = @(~,~) app.exitChallenge();
+            exitButtonLevel = uibutton(app.ChallengeSelectUI, 'push');
+            exitButtonLevel.ButtonPushedFcn = @(~,~) app.exitChallengeSelect();
             exitButtonLevel.Position = [30, 30, 100, 30];
             exitButtonLevel.FontColor = [1, 1, 1];
             exitButtonLevel.BackgroundColor = [0.3, 0.6, 1];
-            exitButtonLevel.Text = 'Exit'
-
-            app.UIFigure.Visible = 'off';
+            exitButtonLevel.Text = 'Exit';
     
             % a switch statement to determine the appropriate level file based on the selected level.
             switch selectedLevel
@@ -756,7 +762,7 @@ classdef myApp < matlab.apps.AppBase
             app.correctTranslation = englishTranslations{randomIndex};
 
             % Cereate a label to display instructions for the challenge
-            translateLabel = uilabel(app.ChallengeUI);
+            translateLabel = uilabel(app.ChallengeSelectUI);
             translateLabel.Text = 'Translate the French word to English. 5 in a row allows you to level up!'; % Does not show but helps contexually within the code
             translateLabel.HorizontalAlignment = 'center'; % Center the text within the label
             translateLabel.FontSize = 16;
@@ -765,18 +771,18 @@ classdef myApp < matlab.apps.AppBase
             translateLabel.Position = [150, 350, 300, 30];
             
             % Create a label to display the French word that needs translation
-            frenchWordLabel = uilabel(app.ChallengeUI);
+            frenchWordLabel = uilabel(app.ChallengeSelectUI);
             frenchWordLabel.Text = frenchWord;
             frenchWordLabel.FontSize = 16;
             frenchWordLabel.HorizontalAlignment = 'center'; % Center the French word text within the label
             frenchWordLabel.Position = [150, 300, 300, 30]; % set position for the French word label
             
             % Create an edit field where users can input their English translation guess
-            guessEditField = uieditfield(app.ChallengeUI, 'text');
+            guessEditField = uieditfield(app.ChallengeSelectUI, 'text');
             guessEditField.Position = [200, 250, 200, 30]; % Set the position for the edit field
             
             % Create a "Submit" button for users to submit their translation guess
-            submitButton = uibutton(app.ChallengeUI, 'push');
+            submitButton = uibutton(app.ChallengeSelectUI, 'push');
             submitButton.Text = 'Submit';
             submitButton.Position = [250, 200, 100, 30];
             submitButton.FontWeight = 'bold';
@@ -792,18 +798,18 @@ classdef myApp < matlab.apps.AppBase
                     app.streak = app.streak + 1;
                 
                     % Display a message indicating correctness and streak
-                    message = uilabel(app.ChallengeUI);
+                    message = uilabel(app.ChallengeSelectUI);
                     message.Text = sprintf('Correct 🔥 Streak: %d', app.streak);
                     message.FontSize = 16;
                     message.FontColor = [0 85/255 164/255];
                     message.Position = [200, 150, 200, 30];
                     message.HorizontalAlignment = 'center'; % Center the text
 
-                    % Check if the streak reaches 10
-                    if app.streak >= 5 && selectedLevel < 3
+                    % check if the streak reaches 5
+                    if app.streak == 5 && selectedLevel < 3
                         % suggest to go to the next level due to the high
                         % streak
-                        nextLevelButton = uibutton(app.ChallengeUI, 'push');
+                        nextLevelButton = uibutton(app.ChallengeSelectUI, 'push');
                         nextLevelButton.Position = [250, 100, 100, 30];
                         nextLevelButton.Text = 'Next Level';
                         nextLevelButton.FontWeight = 'bold';
@@ -831,7 +837,7 @@ classdef myApp < matlab.apps.AppBase
                 else
                     % display a message indicating incorrectness
                     app.streak = 0;
-                    message = uilabel(app.ChallengeUI);
+                    message = uilabel(app.ChallengeSelectUI);
                     message.Text = 'Incorrect ❌';
                     message.FontSize = 16;
                     message.Position = [230, 150, 140, 30];
@@ -857,13 +863,21 @@ classdef myApp < matlab.apps.AppBase
         
         % EXITBUTTONPUSHEDSTORYUI: executed when the exit button in the StoryUI is pushed
         function exitButtonPushedStoryUI(app, ~)
-            delete(app.Story1UI);  % Remove the story UI.
-            createHomeScreen(app); % Return to the home screen
+            % Closes the story UI
+            delete(app.Story1UI);
+
+            % Bring back the story selection UI
+            app.StoryUI.Visible = 'on';
         end
         
         % EXITCHALLENGE: executed when the exit button in the ChallengeUI is pushed
         function exitChallenge(app)
-            delete(app.ChallengeUI);  % Remove the challenge UI
+            app.ChallengeUI.Visible = 'off';
+            createHomeScreen(app);    % Return to the home screen
+        end
+
+        function exitChallengeSelect(app)
+            app.ChallengeSelectUI.Visible = 'off';
             createHomeScreen(app);    % Return to the home screen
         end
     end
