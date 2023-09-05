@@ -5,48 +5,12 @@ classdef waddup < matlab.apps.AppBase
         UIFigure           matlab.ui.Figure
         HomeUI             matlab.ui.Figure
         LoadingLabel       matlab.ui.control.Label
-        StartButton        matlab.ui.control.Button
-        SubmitButton       matlab.ui.control.Button
-        EditText           matlab.ui.control.EditField
-        TranslationLabel   matlab.ui.control.Label
-        Data               struct
-        audioPlayer        audioplayer  
-        StoryUI            matlab.ui.Figure
-        ChallengeUI        matlab.ui.Figure
-        Story1UI           matlab.ui.Figure
-        Story2UI           matlab.ui.Figure
-        Story3UI           matlab.ui.Figure
-        StorySelectUI      matlab.ui.Figure
     end
  
     properties (Access = private)
         LoadingAnimationTimer
         LoadingAnimationStep = 0
         StartTime
-        RuntimeLabel
-        AudioTimer
-        VolumeSlider
-        InitialVolume = 0.5;  
-        LightBackgroundColor = [1 1 1];
-        isPlayingAudio = false; 
-        LightFontColor = [0 0 0];
-        DarkBackgroundColor = [0.2 0.2 0.2];
-        DarkFontColor = [1 1 1];
-        HomeUIBackgroundColor
-        darkModeColors = struct('bg', [0.15 0.15 0.15], 'text', [1 1 1]);
-        lightModeColors = struct('bg', [1 1 1], 'text', [0 0 0]);
-        currentColors % Added this property for current UI colors
-        isDarkMode = false; % default to light mode
-        MusicPanel
-        ChallengeScore = 0;
-        ChallengeScoreLabel
-        ChallengeLevel = 1;
-        ScoreLabel
-        sumbitTranslation
-        FirstExit = true;
-        streak = 0; 
-        Score
-        CurrentLevel = 1; 
     end
 
     % Methods utilised within the applications functionality 
