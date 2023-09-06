@@ -7,13 +7,17 @@
 % comprehension. Translator reads off a text file of all French to English
 % words and the challenge button executes three level's allowing users to
 % attempt at testing their French vocabulary.
+% A new class myApp that inherits from the matlab.apps.AppBase class. 
+% The base class provides basic functionalities that are common to MATLAB apps.
 classdef myApp < matlab.apps.AppBase
     %% Public properties utilised within the application
-    % The public roperties can be accessed from any other class or function
+    % The public roperties can be accessed from any other function
     % Figures, represent the loaded pages that come with callbacks utilised
     % Labels show design on figures without any action
     % Buttons alike labels show design but include functionality allowing
-    % for user interation and execution via callbacks
+    % for user interation and execution via callbacks. Defintions for
+    % public properites for their corresponding data types have been
+    % included.
     properties (Access = public)
         UIFigure           matlab.ui.Figure % Main user interface window for the loading and translator pages
         HomeUI             matlab.ui.Figure % User interface utilised for the home screen
@@ -39,7 +43,8 @@ classdef myApp < matlab.apps.AppBase
     % Differently, private properties can be accessed only from methods 
     % within the same class. As shown, many of which are utilised for
     % increased design and purpose amongst UI figures utilised within the
-    % application
+    % application. They were kept private to make the code more
+    % maintainable and decrease the likelihood of any unexpected changes.
     properties (Access = private)
         LoadingAnimationTimer       % Timer object to control the loading animation
         LoadingAnimationStep = 0    % Current frame in the loading animation 
@@ -134,6 +139,11 @@ classdef myApp < matlab.apps.AppBase
         % CREATEHOMESCREEN: initialises a home screen page with each main
         % mode of the application being present. Allowing users to go back
         % and forth from either mode and utilise further unique features.
+        % notice app. was used for UI elements as a way to give them a
+        % broader scope within the applications entirety. However in other
+        % elements app. is included as a way of consistency and use from
+        % the start. Others did not include .app due to context at the
+        % time.
         function createHomeScreen(app)
             % Check if the HomeUI property is empty or if the figure associated with it is not valid
             if isempty(app.HomeUI) || ~isvalid(app.HomeUI)
@@ -530,7 +540,7 @@ classdef myApp < matlab.apps.AppBase
                 if isplaying(app.audioPlayer)
                     pause(app.audioPlayer); 
                     
-                    % Read the audio fidle
+                    % Read the audio file
                     [audioData, fs] = audioread('said.wav');
                     
                     % Adjust the audio data based on the voelume slider value
@@ -893,6 +903,8 @@ classdef myApp < matlab.apps.AppBase
             app.UIFigure.CloseRequestFcn = @(~,~) app.closeApp(); % Set the function to be called upon trying to close the main app window
     
             % If the constructor does not have any output arguments, clear the app variable
+            % checks if there's no output argument when creating the app object. 
+            %if not, it clears the app variable from MATLAB's workspace to free up memory and avoid clutter.
             if nargout == 0
                 clear app
             end
